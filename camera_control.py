@@ -1,22 +1,15 @@
 # camera_control.py
-import gphoto2 as gp
-import time
+# import gphoto2 as gp
+import os
+from time import sleep
 
-def init_camera():
-    """Initialize the camera."""
-    camera = gp.Camera()
-    camera.init()
-    return camera
+def take_photo(fname, shutterspeed):
 
-def capture_image(camera, filename="capture.jpg"):
-    """Capture an image and save it to the specified filename."""
-    file_path = camera.capture(gp.GP_CAPTURE_IMAGE)
-    target_path = f"/path/to/save/{filename}"
-    camera_file = camera.file_get(
-        file_path.folder, file_path.name, gp.GP_FILE_TYPE_NORMAL)
-    camera_file.save(target_path)
-    return target_path
+    # set the shutterspeed (step, shutterspeed_value of something allows actual shuttertime)
+    os.system('gphoto2 --set-config-index /main/capturesettings/shutterspeed=' + str(shutterspeed))
 
-def release_camera(camera):
-    """Release the camera."""
-    camera.exit()
+    # wait half a second
+    sleep(.5)
+
+    # take the photo and save it as "fname"
+    os.system('gphoto2 --capture-image-and-download --filename \'' + fname + '\'')

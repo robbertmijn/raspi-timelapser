@@ -1,0 +1,4 @@
+name: raspi
+dependencies:
+  - flask
+  - nicegui
